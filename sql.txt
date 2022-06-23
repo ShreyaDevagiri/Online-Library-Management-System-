@@ -1,0 +1,162 @@
+CREATE TABLE BOOK
+(
+  book_code INT NOT NULL,
+  book_name VARCHAR(10),
+  publisher_name VARCHAR(10),
+  subject_code INT NOT NULL,
+  rack_no INT NOT NULL,
+  price INT NOT NULL,
+  issued_date DATE NOT NULL,
+  expiry_date DATE NOT NULL,
+  start_date DATE NOT NULL,
+  end_date DATE NOT NULL,
+  penalty_fee INT,
+  fine INT,
+  PRIMARY KEY (book_code)
+);
+
+CREATE TABLE STUDENT
+(
+  ssn INT NOT NULL,
+  sname VARCHAR(10),
+  ename VARCHAR(10),
+  address VARCHAR(10),
+  phone_no INT NOT NULL,
+  book_code INT NOT NULL,
+  PRIMARY KEY (ssn),
+  FOREIGN KEY (book_code) REFERENCES BOOK(book_code)
+);
+
+CREATE TABLE AUTHOR
+(
+  author_id INT NOT NULL,
+  author_name VARCHAR(10),
+  PRIMARY KEY (author_id)
+);
+
+CREATE TABLE FACULTY
+(
+  fid INT NOT NULL,
+  fname VARCHAR(10),
+  lname VARCHAR(10),
+  address VARCHAR(10),
+  dept INT VARCHAR(10),
+  phone_no INT NOT NULL,
+  book_code INT NOT NULL,
+  PRIMARY KEY (fid),
+  FOREIGN KEY (book_code) REFERENCES BOOK(book_code)
+);
+
+CREATE TABLE written
+(
+  book_code INT NOT NULL,
+  author_id INT NOT NULL,
+  PRIMARY KEY (book_code, author_id),
+  FOREIGN KEY (book_code) REFERENCES BOOK(book_code),
+  FOREIGN KEY (author_id) REFERENCES AUTHOR(author_id)
+);
+
+CREATE TABLE STAFF
+(
+ staff_id INT NOT NULL,
+   ssn INT NOT NULL,
+  full_name VARCHAR(20),
+  salary INT NOT NULL,
+  designation VARCHAR(10),
+  working_hours INT NOT NULL,
+  address VARCHAR(10),
+  PRIMARY KEY (staff_id),
+  FOREIGN KEY (ssn) REFERENCES STUDENT(ssn)
+);
+
+CREATE TABLE managed_by
+( 
+  book_code INT NOT NULL,
+  staff_id INT NOT NULL,
+  subject_no INT NOT NULL,
+  rack INT NOT NULL,
+  PRIMARY KEY (book_code, staff_id),
+  FOREIGN KEY (book_code) REFERENCES BOOK(book_code),
+  FOREIGN KEY (staff_id) REFERENCES STAFF(staff_id)
+);
+INSERT INTO STUDENT VALUES(1001,'Shreya','Devagiri','Hubli',7890142398,110);
+INSERT INTO STUDENT VALUES(1002,'Sneha','Pamali','Dharwad',7652341011,105);
+INSERT INTO STUDENT VALUES(1003,'Abhishek','Patil','Dharwad',7823262190,109);
+INSERT INTO STUDENT VALUES(1004,'Thushar','Upari','Belgaum',9872537123,101);
+INSERT INTO STUDENT VALUES(1005,'Arya','Shiv','Bengaluru',9823142371,101);
+INSERT INTO STUDENT VALUES(1006,'Venkatesh','Iyer','Vidyanagar',6062378901,102);
+INSERT INTO STUDENT VALUES(1007,'Khushi','Shivamoggi','Keshwapur',6753290109,103);
+INSERT INTO STUDENT VALUES(1008,'Bharath','Arun','Srinagar',7338498087,110);
+INSERT INTO STUDENT VALUES(1009,'Mayur','Gowda','CB nagar',9964512356,102);
+INSERT INTO STUDENT VALUES(1010,'Ibbani','Reddy','Vidyagiri',8970598231,104);
+
+INSERT Into AUTHOR VALUES(01,'William Stallings');
+INSERT Into AUTHOR VALUES(02,'Yashavant Kanetkar');
+INSERT Into AUTHOR VALUES(03,'R.K. Bansal');
+INSERT Into AUTHOR VALUES(04,'Donald Neamen');
+INSERT Into AUTHOR VALUES(05,'Anany Levitin');
+INSERT Into AUTHOR VALUES(06,'RamakrishnanR');
+INSERT Into AUTHOR VALUES(07,'David C. Lay');
+INSERT Into AUTHOR VALUES(08,'Kenneth H Rosen');
+INSERT Into AUTHOR VALUES(09,'George Kennedy');
+INSERT Into AUTHOR VALUES(10,'  Morris Mano');
+
+INSERT INTO written VALUES(110,01);
+INSERT INTO written VALUES(101,02);
+INSERT INTO written VALUES(102,03);
+INSERT INTO written VALUES(103,04);
+INSERT INTO written VALUES(105,05);
+INSERT INTO written VALUES(106,06);
+INSERT INTO written VALUES(104,07);
+INSERT INTO written VALUES(108,08);
+INSERT INTO written VALUES(107,09);
+INSERT INTO written VALUES(109,10);
+
+INSERT into FACULTY values(151,'Meena','Shetty','Vidyanagar','CS',9891234789,103);
+INSERT into FACULTY values(152,'Rishikesh','Patil','Vidyagiri','EC',7643389011,102);
+INSERT into FACULTY values(153,'Suman','Gowda','Kelgeri','CS',6098723465,101);
+INSERT into FACULTY values(154,'Arihanth','Reddy','CB nagar','CS',6782199871,104);
+INSERT into FACULTY values(155,'Srikar','Bairav','Srinagar','CS',7890145230,105);
+INSERT into FACULTY values(156,'Rajeshwari','Patil','Keshwapur','CS',9987023900,106);
+INSERT into FACULTY values(157,'Sonal','Rao','Sattur','CS',8976541231,109);
+INSERT into FACULTY values(158,'Arnav','Kanavi','Vidyanagar','CS',8001023414,108);
+INSERT into FACULTY values(159,'Revati','Yeligar','Gokul Road','CS',9871023451,110);
+INSERT into FACULTY values(160,'Shourya','Keshav','Dollars Colony','CS',8976541101,107);
+
+INSERT into STAFF values(300,1010,'Ramesh Patil',50000,'Libranian',100,'Vidyagiri');
+INSERT into STAFF values(301,1001,'Ashok Hosmani',25000,'Supervisor',80,'Gokul Road');
+INSERT into STAFF values(302,1007,'Riya Ramesh',30000,'Assistant ',90,'Shivgiri');
+INSERT into STAFF values(303,1003,'Rajeev Alur',10000,'Clerk',50,'Sattur');
+INSERT into STAFF values(304,1006,'Ramya Gowda',30000,'Assistant ',90,'Keshwapur');
+INSERT into STAFF values(305,1009,'Kavya Patil',15000,'Clerk',50,'Navalur');
+INSERT into STAFF values(306,1005,'Rishabh Reddy',45000,'Database manager',65,'Navanagar');
+INSERT into STAFF values(307,1004,'Madhu Bali',30000,'Assistant ',96,'Silver town');
+INSERT into STAFF values(308,1002,'Rakhi Savanur',35000,'Assistant ',100,'Unkal');
+INSERT into STAFF values(309,1008,'Manish Ashok',45700,'Database manager',70,'Vidyagiri');
+
+INSERT INTO managed_by VALUES(101,309,501,855);
+INSERT INTO managed_by VALUES(102,301,502,853);
+INSERT INTO managed_by VALUES(103,306,503,857);
+INSERT INTO managed_by VALUES(104,303,504,854);
+INSERT INTO managed_by VALUES(105,302,505,856);
+INSERT INTO managed_by VALUES(106,307,506,859);
+INSERT INTO managed_by VALUES(107,304,507,852);
+INSERT INTO managed_by VALUES(108,308,508,853);
+INSERT INTO managed_by VALUES(109,310,509,858);
+INSERT INTO managed_by VALUES(110,305,510,851);
+
+INSERT into BOOK values(101,'C Programming','Yashavant Kantekar',501,851,350,'02-JAN-2020','20-JAN-2020','24-JAN-2020','10-FEB-2020',10,05);
+INSERT into BOOK values(102,'Mechanics','R K Bansal',502,852,800,'21-JAN-2020','01-FEB-2020','10-FEB-2020','20-FEB-2020',20,10);
+INSERT into BOOK values(103,'Semiconductors','Donald Neamen',503,853,750,'03-MAR-2020','15-MAR-2020','10-FEB-2020','20-FEB-2020',15,10);
+INSERT into BOOK values(104,'GTLA','David C Lay',504,854,500,'02-JAN-2020','15-JAN-2020','30-JAN-2020','05-FEB-2020',14,07);
+INSERT into BOOK values(105,'Algorithms','Anany Levitin',505,855,850,'02-JUN-2020','20-JUN-2020','26-JUN-2020','10-JUL-2020',10,07);
+INSERT into BOOK VALUES(106,'DBMS','Ramakrishnan R',506,856,450,'12-JUL-2020','30-JUL-2020','15-JUN-2020','25-JUN-2020',15,08);
+INSERT into BOOK values(107,'Electronics','George Kennedy',507,857,700,'10-AUG-2020','25-AUG-2020','23-AUG-2020','05-SEPT-2020',11,06);
+INSERT into BOOK values(108,'DMS','Kenneth H Rosen',508,858,1050,'02-SEP-2020','15-SEPT-2020','29-SEPT-2020','10-OCT-2020',12,09);
+INSERT into BOOK values(109,'Digital Logics','Morris Mano',509,859,950,'10-OCT-2020','20-NOV-2020','30-SEP-2020','09-OCT-2020',24,10);
+INSERT into BOOK values(110,'COA','William Stallings ',510,851,1000,'21-NOV-2020','02-DEC-2020','10-DEC-2020','20-DEC-2020',14,08);
+
+
+
+
+    
